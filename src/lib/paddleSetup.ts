@@ -43,7 +43,11 @@ export function initPaddle(onEvent: (data: any) => void): void {
 
   const doInit = () => {
     if (!window.Paddle || initialised) return;
-    window.Paddle.Environment.set('sandbox');
+    // Defaults to 'sandbox' (unchanged behaviour). Set NEXT_PUBLIC_PADDLE_ENV=production
+    // in the deployment env to switch to live checkout without any code change.
+    const paddleEnv =
+      process.env.NEXT_PUBLIC_PADDLE_ENV === 'production' ? 'production' : 'sandbox';
+    window.Paddle.Environment.set(paddleEnv);
     window.Paddle.Initialize({
       token: token ?? '',
       eventCallback: onEvent,

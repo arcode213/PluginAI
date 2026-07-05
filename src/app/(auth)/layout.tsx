@@ -1,9 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
+import { AmbientBackground } from '@/components/landing/AmbientBackground';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <AmbientBackground />
       <div style={{ position: 'absolute', top: '24px', left: '32px' }}>
         <Link href="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
           <img

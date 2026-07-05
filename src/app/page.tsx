@@ -3,33 +3,30 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/landing/Hero';
 import { Stats } from '@/components/landing/Stats';
 import { Features } from '@/components/landing/Features';
+import { HowItWorks } from '@/components/landing/HowItWorks';
 import { DemoChat } from '@/components/landing/DemoChat';
 import { Pricing } from '@/components/landing/Pricing';
+import { CTA } from '@/components/landing/CTA';
+import { Footer } from '@/components/landing/Footer';
+import { AmbientBackground } from '@/components/landing/AmbientBackground';
 import { PublicRouteGuard } from '@/components/auth/PublicRouteGuard';
 
 export default function Home() {
   return (
     <>
       <PublicRouteGuard />
+      <AmbientBackground />
       <Navbar />
       <main>
         <Hero />
         <Stats />
         <Features />
+        <HowItWorks />
         <DemoChat />
         <Pricing />
+        <CTA />
       </main>
-      <footer>
-        <div className="footer-logo">Plugin<span>AI</span></div>
-        <div className="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Docs</a>
-          <a href="#">Support</a>
-          <a href="#">Status</a>
-        </div>
-        <div className="footer-copy">© 2026 Plugin AI. All rights reserved.</div>
-      </footer>
+      <Footer />
     </>
   );
 }

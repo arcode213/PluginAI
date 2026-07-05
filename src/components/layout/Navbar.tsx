@@ -1,22 +1,42 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Button } from '../ui/Button';
+import { Button } from '@/components/shadcn/button';
+import { gsap, useGSAP, prefersReducedMotion } from '../landing/_anim';
 
 export function Navbar() {
+  const nav = useRef<HTMLElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useGSAP(() => {
+    if (prefersReducedMotion()) return;
+    gsap.from('[data-nav]', {
+      y: -18, autoAlpha: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.1,
+      clearProps: 'transform,opacity,visibility',
+    });
+  }, { scope: nav });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <nav className="navbar">
-      <Link href="/" className="nav-logo">
+    <nav className={`navbar${scrolled ? ' navbar-scrolled' : ''}`} ref={nav}>
+      <Link href="/" className="nav-logo" data-nav>
         Plugin<span>AI</span>
       </Link>
       <ul className="nav-links">
-        <li><Link href="#features">Features</Link></li>
-        <li><Link href="#how-it-works">How it works</Link></li>
-        <li><Link href="#pricing">Pricing</Link></li>
-        <li><Link href="#docs">Docs</Link></li>
+        <li data-nav><Link href="/#features">Features</Link></li>
+        <li data-nav><Link href="/#how-it-works">How it works</Link></li>
+        <li data-nav><Link href="/#pricing">Pricing</Link></li>
+        <li data-nav><Link href="/docs">Docs</Link></li>
       </ul>
-      <div style={{ display: 'flex', gap: '12px' }}>
-        <Link href="/login"><Button variant="ghost">Sign in</Button></Link>
-        <Link href="/register"><Button variant="primary">Get started free</Button></Link>
+      <div style={{ display: 'flex', gap: '12px' }} data-nav>
+        <Button asChild variant="ghost" size="sm"><Link href="/login">Sign in</Link></Button>
+        <Button asChild variant="gradient" size="sm"><Link href="/register">Get started free</Link></Button>
       </div>
     </nav>
   );
