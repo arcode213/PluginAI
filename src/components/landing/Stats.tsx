@@ -9,6 +9,8 @@ const STATS: Stat[] = [
   { value: 500, decimals: 0, suffix: '+', label: 'Active workspaces' },
   { value: 99.9, decimals: 1, suffix: '%', label: 'Uptime SLA' },
   { value: 2.1, decimals: 1, suffix: 's', label: 'Avg. response time' },
+  { value: 4, decimals: 0, suffix: '', label: 'File formats supported' },
+  { value: 100, decimals: 0, suffix: '%', label: 'Answers cited to source' },
 ];
 
 const fmt = (n: number, s: Stat) => `${s.prefix ?? ''}${n.toFixed(s.decimals)}${s.suffix ?? ''}`;

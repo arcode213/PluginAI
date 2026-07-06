@@ -48,7 +48,7 @@ export function Hero() {
         </p>
 
         <div className="hero-actions" data-hero="actions">
-          <Button asChild variant="gradient" size="lg"><Link href="/register">Start for free</Link></Button>
+          <Button asChild variant="gradient" size="lg"><a href="https://app.pluginai.space/register">Start for free</a></Button>
           <Button asChild variant="outline" size="lg"><Link href="#demo">View live demo</Link></Button>
         </div>
 

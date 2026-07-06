@@ -1,6 +1,5 @@
 'use client';
 import React, { useRef } from 'react';
-import Link from 'next/link';
 import { Button } from '@/components/shadcn/button';
 import { gsap, useGSAP, prefersReducedMotion } from './_anim';
 
@@ -13,19 +12,19 @@ const PLANS = [
     name: 'Free', price: '$0', unit: '/mo', featured: false,
     desc: 'Perfect for individuals and small projects.',
     features: ['1 workspace', '10 documents', '100 queries/month', 'Community support'],
-    cta: 'Get started free', href: '/register', btn: 'plan-btn-outline',
+    cta: 'Get started free', href: 'https://app.pluginai.space/register', btn: 'plan-btn-outline',
   },
   {
     name: 'Pro', price: '$29', unit: '/mo', featured: true,
     desc: 'For growing teams and businesses.',
     features: ['5 workspaces', '100 documents', '10,000 queries/month', 'API access', 'Priority support'],
-    cta: 'Start Pro trial', href: '/register', btn: 'plan-btn-filled',
+    cta: 'Start Pro trial', href: 'https://app.pluginai.space/register', btn: 'plan-btn-filled',
   },
   {
     name: 'Enterprise', price: 'Custom', unit: '', featured: false,
     desc: 'For large organizations with custom needs.',
     features: ['Unlimited workspaces', 'Unlimited documents', 'Custom token limits', 'SSO & advanced security', 'Dedicated support'],
-    cta: 'Contact sales', href: '/register', btn: 'plan-btn-outline',
+    cta: 'Contact sales', href: 'https://app.pluginai.space/register', btn: 'plan-btn-outline',
   },
 ];
 
@@ -63,7 +62,7 @@ export function Pricing() {
               {p.features.map((f) => (<li key={f}>{CHECK}{f}</li>))}
             </ul>
             <Button asChild variant={p.featured ? 'gradient' : 'outline'} className="w-full">
-              <Link href={p.href}>{p.cta}</Link>
+              <a href={p.href}>{p.cta}</a>
             </Button>
           </div>
         ))}

@@ -1,6 +1,5 @@
 'use client';
 import React, { useRef } from 'react';
-import Link from 'next/link';
 import { Button } from '@/components/shadcn/button';
 import { gsap, useGSAP, prefersReducedMotion } from './_anim';
 
@@ -22,8 +21,8 @@ export function CTA() {
         <h2>Ready to build your<br /><span className="grad-text">AI assistant?</span></h2>
         <p>Join teams shipping intelligent, document-grounded support in minutes. Start free — no credit card required.</p>
         <div className="cta-actions">
-          <Button asChild variant="gradient" size="lg"><Link href="/register">Start for free</Link></Button>
-          <Button asChild variant="outline" size="lg"><Link href="/login">Sign in</Link></Button>
+          <Button asChild variant="gradient" size="lg"><a href="https://app.pluginai.space/register">Start for free</a></Button>
+          <Button asChild variant="outline" size="lg"><a href="https://app.pluginai.space/login">Sign in</a></Button>
         </div>
       </div>
     </section>

@@ -130,7 +130,7 @@ export default function DocsPage() {
             <h2>Getting help</h2>
             <p>Stuck on something? Visit <Link href="/support" className="link">Support</Link> for FAQs and contact options, or check the <Link href="/status" className="link">Status</Link> page for live service health.</p>
             <div className="doc-cta">
-              <Link href="/register" className="btn-hero btn-hero-primary">Create your workspace</Link>
+              <a href="https://app.pluginai.space/register" className="btn-hero btn-hero-primary">Create your workspace</a>
               <Link href="/support" className="btn-hero btn-hero-secondary">Contact support</Link>
             </div>
           </Reveal>

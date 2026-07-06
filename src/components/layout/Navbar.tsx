@@ -30,13 +30,15 @@ export function Navbar() {
       </Link>
       <ul className="nav-links">
         <li data-nav><Link href="/#features">Features</Link></li>
+        <li data-nav><Link href="/#use-cases">Use cases</Link></li>
         <li data-nav><Link href="/#how-it-works">How it works</Link></li>
         <li data-nav><Link href="/#pricing">Pricing</Link></li>
+        <li data-nav><Link href="/#faq">FAQ</Link></li>
         <li data-nav><Link href="/docs">Docs</Link></li>
       </ul>
       <div style={{ display: 'flex', gap: '12px' }} data-nav>
-        <Button asChild variant="ghost" size="sm"><Link href="/login">Sign in</Link></Button>
-        <Button asChild variant="gradient" size="sm"><Link href="/register">Get started free</Link></Button>
+        <Button asChild variant="ghost" size="sm"><a href="https://app.pluginai.space/login">Sign in</a></Button>
+        <Button asChild variant="gradient" size="sm"><a href="https://app.pluginai.space/register">Get started free</a></Button>
       </div>
     </nav>
   );
