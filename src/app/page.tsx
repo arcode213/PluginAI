@@ -1,36 +1,48 @@
 import React from 'react';
 import { Navbar } from '@/components/layout/Navbar';
-import { Hero } from '@/components/landing/Hero';
-import { Stats } from '@/components/landing/Stats';
-import { Features } from '@/components/landing/Features';
-import { UseCases } from '@/components/landing/UseCases';
-import { HowItWorks } from '@/components/landing/HowItWorks';
-import { DemoChat } from '@/components/landing/DemoChat';
-import { Testimonials } from '@/components/landing/Testimonials';
-import { Pricing } from '@/components/landing/Pricing';
-import { FAQ } from '@/components/landing/FAQ';
-import { CTA } from '@/components/landing/CTA';
-import { Footer } from '@/components/landing/Footer';
 import { AmbientBackground } from '@/components/landing/AmbientBackground';
+import { SmoothScroll } from '@/components/landing/fx/SmoothScroll';
+import { ScrollProgress } from '@/components/landing/fx/ScrollProgress';
+import { Hero } from '@/components/landing/sections/Hero';
+import { TrustedBy } from '@/components/landing/sections/TrustedBy';
+import { Services } from '@/components/landing/sections/Services';
+import { Features } from '@/components/landing/sections/Features';
+import { WhyChooseUs } from '@/components/landing/sections/WhyChooseUs';
+import { AiCapabilities } from '@/components/landing/sections/AiCapabilities';
+import { TechStack } from '@/components/landing/sections/TechStack';
+import { Process } from '@/components/landing/sections/Process';
+import { CaseStudies } from '@/components/landing/sections/CaseStudies';
+import { Stats } from '@/components/landing/sections/Stats';
+import { Testimonials } from '@/components/landing/sections/Testimonials';
+import { Pricing } from '@/components/landing/sections/Pricing';
+import { Faq } from '@/components/landing/sections/Faq';
+import { Cta } from '@/components/landing/sections/Cta';
+import { Footer } from '@/components/landing/Footer';
 import { PublicRouteGuard } from '@/components/auth/PublicRouteGuard';
 
 export default function Home() {
   return (
     <>
       <PublicRouteGuard />
+      <SmoothScroll />
+      <ScrollProgress />
       <AmbientBackground />
       <Navbar />
-      <main>
+      <main className="font-body relative overflow-x-clip text-white">
         <Hero />
-        <Stats />
+        <TrustedBy />
+        <Services />
         <Features />
-        <UseCases />
-        <HowItWorks />
-        <DemoChat />
+        <WhyChooseUs />
+        <AiCapabilities />
+        <TechStack />
+        <Process />
+        <CaseStudies />
+        <Stats />
         <Testimonials />
         <Pricing />
-        <FAQ />
-        <CTA />
+        <Faq />
+        <Cta />
       </main>
       <Footer />
     </>

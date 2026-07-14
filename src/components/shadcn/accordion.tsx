@@ -11,7 +11,7 @@ function AccordionItem({ className, ...props }: React.ComponentProps<typeof Acco
   return (
     <AccordionPrimitive.Item
       className={cn(
-        'rounded-xl border border-border bg-white/[0.03] px-5 transition-colors data-[state=open]:border-[rgba(124,109,240,0.35)]',
+        'rounded-xl border border-border bg-white/[0.03] px-5 transition-colors data-[state=open]:border-[rgba(59,130,246,0.35)]',
         className
       )}
       {...props}
@@ -28,14 +28,14 @@ function AccordionTrigger({
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
         className={cn(
-          'flex flex-1 items-center justify-between gap-4 py-4 text-left text-[15px] font-medium text-white outline-none transition-colors hover:text-[#a89ff5] [&[data-state=open]>svg]:rotate-45',
+          'flex flex-1 items-center justify-between gap-4 py-4 text-left text-[15px] font-medium text-white outline-none transition-colors hover:text-[#93c5fd] [&[data-state=open]>svg]:rotate-45',
           className
         )}
         {...props}
       >
         {children}
         <svg
-          className="size-5 shrink-0 text-[#7c6df0] transition-transform duration-200"
+          className="size-5 shrink-0 text-[#3b82f6] transition-transform duration-200"
           viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
           strokeLinecap="round" aria-hidden="true"
         >

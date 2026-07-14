@@ -6,8 +6,8 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-const PRIMARY = new THREE.Color('#7c6df0');
-const LIGHT = new THREE.Color('#a89ff5');
+const PRIMARY = new THREE.Color('#6D5EF9');
+const LIGHT = new THREE.Color('#8C82FF');
 
 // Soft round glowing dot texture (avoids square PointsMaterial sprites).
 function makeDotTexture(): THREE.CanvasTexture {
@@ -16,8 +16,8 @@ function makeDotTexture(): THREE.CanvasTexture {
   const ctx = c.getContext('2d')!;
   const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
   g.addColorStop(0.0, 'rgba(255,255,255,1)');
-  g.addColorStop(0.25, 'rgba(200,190,255,0.85)');
-  g.addColorStop(1.0, 'rgba(124,109,240,0)');
+  g.addColorStop(0.25, 'rgba(190, 214, 255,0.85)');
+  g.addColorStop(1.0, 'rgba(109,94,249,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 64, 64);
   const tex = new THREE.CanvasTexture(c);
@@ -91,7 +91,7 @@ export function ThreeBackground() {
     const lineMat = new THREE.LineBasicMaterial({
       color: PRIMARY,
       transparent: true,
-      opacity: 0.16,
+      opacity: 0.12,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
@@ -118,7 +118,7 @@ export function ThreeBackground() {
       map: dotTex,
       color: PRIMARY,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.4,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
