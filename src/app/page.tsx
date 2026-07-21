@@ -22,7 +22,7 @@ import { PublicRouteGuard } from '@/components/auth/PublicRouteGuard';
 
 export default function Home() {
   return (
-    <>
+    <div className="public-surface">
       <PublicRouteGuard />
       <SmoothScroll />
       <ScrollProgress />
@@ -45,6 +45,6 @@ export default function Home() {
         <Cta />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

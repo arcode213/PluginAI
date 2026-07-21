@@ -1,13 +1,20 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, BookOpen } from 'lucide-react';
 import { NAV_LINKS, APP_URL } from '@/components/landing/data';
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Only real page links can be "current". The rest are landing-page sections,
+  // and marking all six active while sitting on `/` would be meaningless.
+  const isActive = (href: string) =>
+    !href.includes('#') && (pathname === href || pathname.startsWith(`${href}/`));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -35,14 +42,46 @@ export function Navbar() {
         </Link>
 
         <ul className="hidden items-center gap-7 lg:flex">
-          {NAV_LINKS.map((l) => (
-            <li key={l.href}>
-              <Link href={l.href} className="group relative text-[14px] text-[#B7B8D0] transition-colors hover:text-white">
-                {l.label}
-                <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-gradient-to-r from-brand to-glow2 transition-transform duration-300 group-hover:scale-x-100" />
-              </Link>
-            </li>
-          ))}
+          {NAV_LINKS.map((l) => {
+            const active = isActive(l.href);
+
+            // Docs: permanently distinct pill, brighter still when it's the page you're on.
+            if (l.highlight) {
+              return (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    aria-current={active ? 'page' : undefined}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[13.5px] font-semibold transition-all duration-300 ${
+                      active
+                        ? 'border-[#8C82FF]/70 bg-[#8C82FF]/25 text-white shadow-[0_0_20px_rgba(140,130,255,0.4)]'
+                        : 'border-[#8C82FF]/35 bg-[#8C82FF]/10 text-[#CFCAFF] hover:border-[#8C82FF]/70 hover:bg-[#8C82FF]/20 hover:text-white'
+                    }`}
+                  >
+                    <BookOpen size={13.5} strokeWidth={2.2} />
+                    {l.label}
+                  </Link>
+                </li>
+              );
+            }
+
+            return (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`group relative text-[14px] transition-colors ${active ? 'text-white' : 'text-[#B7B8D0] hover:text-white'}`}
+                >
+                  {l.label}
+                  <span
+                    className={`absolute -bottom-1.5 left-0 h-px w-full origin-left bg-gradient-to-r from-brand to-glow2 transition-transform duration-300 ${
+                      active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="hidden items-center gap-2 md:flex">
@@ -77,11 +116,42 @@ export function Navbar() {
             className="font-body absolute left-4 right-4 top-[68px] rounded-2xl border border-white/10 bg-[rgba(8,8,16,0.92)] p-4 backdrop-blur-xl md:hidden"
           >
             <div className="flex flex-col gap-1">
-              {NAV_LINKS.map((l) => (
-                <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="rounded-lg px-3 py-2.5 text-[15px] text-[#B7B8D0] transition-colors hover:bg-white/5 hover:text-white">
-                  {l.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map((l) => {
+                const active = isActive(l.href);
+
+                if (l.highlight) {
+                  return (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={active ? 'page' : undefined}
+                      className={`mt-1 inline-flex items-center gap-2 rounded-lg border px-3 py-2.5 text-[15px] font-semibold transition-colors ${
+                        active
+                          ? 'border-[#8C82FF]/70 bg-[#8C82FF]/25 text-white'
+                          : 'border-[#8C82FF]/35 bg-[#8C82FF]/10 text-[#CFCAFF]'
+                      }`}
+                    >
+                      <BookOpen size={15} strokeWidth={2.2} />
+                      {l.label}
+                    </Link>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={active ? 'page' : undefined}
+                    className={`rounded-lg px-3 py-2.5 text-[15px] transition-colors hover:bg-white/5 hover:text-white ${
+                      active ? 'bg-white/5 text-white' : 'text-[#B7B8D0]'
+                    }`}
+                  >
+                    {l.label}
+                  </Link>
+                );
+              })}
               <div className="mt-2 flex gap-2">
                 <a href={`${APP_URL}/login`} className="flex-1 rounded-xl border border-white/12 px-4 py-2.5 text-center text-[14px] text-white">Sign in</a>
                 <a href={`${APP_URL}/register`} className="flex-1 rounded-xl bg-[linear-gradient(120deg,#8C82FF,#6D5EF9,#5647E8)] px-4 py-2.5 text-center text-[14px] font-semibold text-white">Get started</a>

@@ -139,6 +139,29 @@
 body { font-family: var(--font-family); background: var(--bg-dark); color: var(--text-main); }
 a { text-decoration: none; color: inherit; }
 
+/* ── Form-control reset — PUBLIC/MARKETING SURFACE ONLY ────────────────────
+   Tailwind preflight is disabled (see header), so bare <button>/<input>
+   elements keep the UA defaults: background #f0f0f0, `outset` border, black
+   Arial text. On the dark marketing surface that renders a light-grey box —
+   which is why the FAQ questions (text-white) were invisible.
+   Scoped to .public-surface so /app and /admin, which rely on inline styles,
+   are provably untouched. Lives in @layer base, so any Tailwind utility
+   (bg-*, border-*, text-*) still wins — exactly how preflight behaves. */
+.public-surface :is(button, input, textarea, select) {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+}
+.public-surface button { cursor: pointer; }
+.public-surface :is(button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* Base Components */
 .btn-ghost { padding: 8px 20px; border: 0.5px solid rgba(255,255,255,0.2); border-radius: 8px; background: transparent; color: #fff; font-size: 14px; cursor: pointer; transition: all 0.2s; }
 .btn-ghost:hover { background: rgba(255,255,255,0.06); }
@@ -692,7 +715,11 @@ html.lenis { scroll-behavior: auto; }
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)) padding-box,
     var(--grad-border) border-box;
-  backdrop-filter: blur(18px);
+  /* PERF: backdrop-filter re-samples everything painted behind the element on
+     every frame, and there are ~40 of these cards on the landing page. The
+     backdrop here is only soft aurora gradients, so a large radius buys almost
+     nothing visually — 12px looks equivalent and costs materially less. */
+  backdrop-filter: blur(12px);
   box-shadow: var(--e2);
   transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
 }
@@ -700,11 +727,21 @@ html.lenis { scroll-behavior: auto; }
   transform: translateY(-6px);
   box-shadow: var(--e2), var(--e3);
 }
-/* Soft top inset highlight */
+/* Soft top inset highlight.
+   PERF: previously `mix-blend-mode: screen`, which forces the card into a
+   separate blending group and re-composites it whenever anything behind it
+   moves. Over a dark translucent card, screen-blending white is visually
+   near-identical to just painting a slightly weaker white gradient. */
 .card-glass::after {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 22%);
-  mix-blend-mode: screen; opacity: 0.7;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 22%);
+}
+
+/* Mobile / low-power: drop the backdrop blur entirely. Coarse-pointer devices
+   have the weakest GPUs and the aurora backdrop is barely visible at that size,
+   so this is where the blur costs the most and shows the least. */
+@media (max-width: 768px) {
+  .card-glass { backdrop-filter: none; }
 }
 
 /* Buttons */
@@ -788,7 +825,15 @@ html.lenis { scroll-behavior: auto; }
   background: radial-gradient(320px circle at var(--sx, 50%) var(--sy, 50%), rgba(140, 130, 255, 0.16), transparent 60%);
 }
 .card-spot:hover::before { opacity: 1; }
-.card-glass > * { position: relative; z-index: 1; }
+/* Lift real card content above the ::after highlight overlay.
+   MUST stay inside @layer base: unlayered rules outrank every layered rule,
+   so an unlayered `position: relative` here silently beat Tailwind's own
+   `.absolute` utility and dragged absolutely-positioned decorations (aurora
+   spotlights, floaty blobs) back into normal flow — which padded the CTA card
+   with ~580px of empty height. Inside the layer, utilities win as intended. */
+@layer base {
+  .card-glass > *:not(.absolute):not(.fixed):not(.sticky) { position: relative; z-index: 1; }
+}
 
 /* Button ripple */
 @keyframes ripple-expand {

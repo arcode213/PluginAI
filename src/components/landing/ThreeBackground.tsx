@@ -131,7 +131,7 @@ export function ThreeBackground() {
       tmx = e.clientX / window.innerWidth - 0.5;
       tmy = e.clientY / window.innerHeight - 0.5;
     };
-    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mousemove', onMove, { passive: true });
 
     // ── Render loop (single-flight guarded) ──────────────────────────────────
     const clock = new THREE.Clock();
@@ -167,12 +167,28 @@ export function ThreeBackground() {
     };
     window.addEventListener('resize', onResize);
 
-    const onVis = () => (document.hidden ? stop() : start());
+    // Pause when the tab is hidden …
+    let visible = true;   // tab visible
+    let onScreen = true;  // hero intersecting the viewport
+    const sync = () => (visible && onScreen ? start() : stop());
+
+    const onVis = () => { visible = !document.hidden; sync(); };
     document.addEventListener('visibilitychange', onVis);
+
+    // … and when the hero is scrolled out of view. Without this the WebGL loop
+    // keeps rendering 88 nodes + 460 dust sprites at up to 2x DPR for the whole
+    // page, competing with scroll for GPU/main-thread time long after the hero
+    // is gone. This is the single biggest scroll-time saving on the landing page.
+    const io = new IntersectionObserver(
+      ([entry]) => { onScreen = entry.isIntersecting; sync(); },
+      { rootMargin: '120px' }
+    );
+    io.observe(mount);
 
     // ── Cleanup ──────────────────────────────────────────────────────────────
     return () => {
       stop();
+      io.disconnect();
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('resize', onResize);
       document.removeEventListener('visibilitychange', onVis);

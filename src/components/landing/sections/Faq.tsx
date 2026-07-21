@@ -6,11 +6,19 @@ import { SectionHeading } from '@/components/landing/ui/SectionHeading';
 import { Reveal } from '@/components/landing/ui/Reveal';
 import { FAQS, APP_URL } from '@/components/landing/data';
 
-function Item({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
+function Item({ id, q, a, open, onToggle }: { id: string; q: string; a: string; open: boolean; onToggle: () => void }) {
   return (
-    <div className={`card-glass overflow-hidden rounded-2xl transition-colors ${open ? '' : ''}`}>
-      <button onClick={onToggle} aria-expanded={open} className="flex w-full items-center justify-between gap-4 p-5 text-left">
-        <span className="font-display text-[16px] font-medium text-white">{q}</span>
+    <div className="card-glass overflow-hidden rounded-2xl">
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={`${id}-panel`}
+        id={`${id}-trigger`}
+        // bg-transparent/text-* are explicit so the question stays legible even
+        // outside .public-surface (Tailwind preflight is off in this project).
+        className="flex w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent p-5 text-left transition-colors hover:bg-white/[0.03]"
+      >
+        <span className={`font-display text-[16px] font-medium transition-colors ${open ? 'text-white' : 'text-[#E4E5F1]'}`}>{q}</span>
         <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/12 text-[#8C82FF] transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>
           <Plus size={16} />
         </span>
@@ -18,6 +26,9 @@ function Item({ q, a, open, onToggle }: { q: string; a: string; open: boolean; o
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
+            id={`${id}-panel`}
+            role="region"
+            aria-labelledby={`${id}-trigger`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -48,7 +59,7 @@ export function Faq() {
         <div className="flex flex-col gap-3">
           {FAQS.map((f, i) => (
             <Reveal key={f.q} delay={i * 0.05}>
-              <Item q={f.q} a={f.a} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
+              <Item id={`faq-${i}`} q={f.q} a={f.a} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
             </Reveal>
           ))}
         </div>

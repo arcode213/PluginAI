@@ -41,6 +41,7 @@ const TOC = [
   ['quickstart', 'Quickstart'],
   ['concepts', 'Core concepts'],
   ['query-api', 'Query API'],
+  ['integrations', 'Integrations & SDKs'],
   ['limits', 'Rate limits & usage'],
   ['help', 'Getting help'],
 ];
@@ -108,6 +109,29 @@ export default function DocsPage() {
             <pre className="code"><code>{js}</code></pre>
             <h4>Response</h4>
             <p>Returns the grounded <code>answer</code>, a <code>status</code> (e.g. <code>no_data</code> when nothing relevant is found), and <code>response_time_seconds</code>.</p>
+          </Reveal>
+
+          <Reveal id="integrations">
+            <h2>Integrations &amp; SDKs</h2>
+            <p>Rather not call the REST API by hand? Three official integrations do it for you:</p>
+            <div className="concept-grid">
+              <div className="concept">
+                <h4>WordPress plugin</h4>
+                <p><code>pluginai-chatbot</code> — a floating widget or <code>[pluginai_chat]</code> shortcode. No code at all.</p>
+              </div>
+              <div className="concept">
+                <h4>Python package</h4>
+                <p><code>pip install pluginai</code> — query your workspace from scripts, notebooks, Flask, Django, or FastAPI.</p>
+              </div>
+              <div className="concept">
+                <h4>React package</h4>
+                <p><code>npm install pluginai-react</code> — a drop-in <code>&lt;ChatWidget /&gt;</code> or the headless <code>usePluginAI</code> hook.</p>
+              </div>
+            </div>
+            <p>
+              Step-by-step setup, all options, and troubleshooting for each:{' '}
+              <Link href="/docs/integrations" className="link">read the integration guides</Link>.
+            </p>
           </Reveal>
 
           <Reveal id="limits">

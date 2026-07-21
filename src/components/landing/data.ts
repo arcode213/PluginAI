@@ -10,13 +10,23 @@ import {
   Building2, TrendingUp,
 } from 'lucide-react';
 
-export const NAV_LINKS = [
-  { label: 'Services', href: '#services' },
-  { label: 'Features', href: '#features' },
-  { label: 'Capabilities', href: '#capabilities' },
-  { label: 'Process', href: '#process' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQ', href: '#faq' },
+// Root-relative hashes ('/#pricing' rather than '#pricing') so these keep
+// working from the marketing sub-pages. A bare '#pricing' on /docs resolves to
+// /docs#pricing, which goes nowhere. On the landing page itself SmoothScroll
+// intercepts them and hands off to Lenis, so there is no navigation cost.
+// `highlight` renders the item as a permanent brand-tinted pill instead of a
+// plain text link — Docs is a destination, not a section of the landing page,
+// so it should read differently from its neighbours at all times.
+export type NavLink = { label: string; href: string; highlight?: boolean };
+
+export const NAV_LINKS: NavLink[] = [
+  { label: 'Services', href: '/#services' },
+  { label: 'Features', href: '/#features' },
+  { label: 'Capabilities', href: '/#capabilities' },
+  { label: 'Process', href: '/#process' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'FAQ', href: '/#faq' },
+  { label: 'Docs', href: '/docs', highlight: true },
 ];
 
 export const APP_URL = 'https://app.pluginai.space';
@@ -151,7 +161,7 @@ export const FAQS = [
 ];
 
 export const FOOTER_COLS = [
-  { title: 'Product', links: [{ label: 'Features', href: '#features' }, { label: 'Pricing', href: '#pricing' }, { label: 'Capabilities', href: '#capabilities' }, { label: 'Docs', href: '/docs' }] },
+  { title: 'Product', links: [{ label: 'Features', href: '#features' }, { label: 'Pricing', href: '#pricing' }, { label: 'Docs', href: '/docs' }, { label: 'Integrations & SDKs', href: '/docs/integrations' }] },
   { title: 'Company', links: [{ label: 'Services', href: '#services' }, { label: 'Case Studies', href: '#cases' }, { label: 'Support', href: '/support' }, { label: 'Status', href: '/status' }] },
   { title: 'Legal', links: [{ label: 'Privacy', href: '/privacy' }, { label: 'Terms', href: '/terms' }] },
 ];

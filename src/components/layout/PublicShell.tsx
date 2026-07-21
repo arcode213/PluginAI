@@ -6,11 +6,11 @@ import { AmbientBackground } from '../landing/AmbientBackground';
 // Shared chrome for public marketing sub-pages (docs, privacy, terms, etc.).
 export function PublicShell({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="public-surface">
       <AmbientBackground />
       <Navbar />
       <main className="subpage">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }

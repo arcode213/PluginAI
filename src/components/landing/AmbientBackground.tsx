@@ -16,19 +16,31 @@ export function AmbientBackground() {
 
     let tx = window.innerWidth / 2, ty = window.innerHeight / 3;
     let cx = tx, cy = ty, raf = 0, seen = false;
+
     const onMove = (e: MouseEvent) => {
       tx = e.clientX; ty = e.clientY;
       if (!seen) { seen = true; el.style.opacity = '1'; }
+      if (!raf) raf = requestAnimationFrame(loop); // wake the loop on demand
     };
+
+    // The glow is a large blurred radial gradient, so every frame that touches
+    // --mx/--my repaints a big area. Idle the rAF out once the easing has
+    // settled instead of running it for the lifetime of the page; a fresh
+    // mousemove restarts it. Saves a continuous repaint during scrolling.
     const loop = () => {
-      cx += (tx - cx) * 0.15; cy += (ty - cy) * 0.15;
+      const dx = tx - cx, dy = ty - cy;
+      cx += dx * 0.15; cy += dy * 0.15;
       el.style.setProperty('--mx', `${cx.toFixed(1)}px`);
       el.style.setProperty('--my', `${cy.toFixed(1)}px`);
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) { raf = 0; return; }
       raf = requestAnimationFrame(loop);
     };
+
     window.addEventListener('mousemove', onMove, { passive: true });
-    raf = requestAnimationFrame(loop);
-    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); };
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
